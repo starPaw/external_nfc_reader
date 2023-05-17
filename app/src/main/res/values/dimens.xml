@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cell_padding_start">16dp</dimen>
+    <dimen name="cell_padding_end">16dp</dimen>
+    <dimen name="cell_padding_top_bottom">8dp</dimen>
+    <dimen name="cell_padding">8dp</dimen>
+    <dimen name="cell_spacing">16dp</dimen>
+</resources>

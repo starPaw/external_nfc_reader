@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TableRowStyle">
+        <item name="android:background">@drawable/table_row_background</item>
+    </style>
+</resources>
