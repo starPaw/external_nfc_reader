@@ -175,7 +175,7 @@ class StartStopActivity : AppCompatActivity() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    // Photo capture error callback
+                    // Photo capture error c allback
                     val errorMsg = "Photo capture failed: ${exception.message}"
                     Toast.makeText(this@StartStopActivity, errorMsg, Toast.LENGTH_SHORT).show()
                 }
