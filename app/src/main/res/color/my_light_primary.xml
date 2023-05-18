@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!-- Цвет панели действий -->
+        <item name="colorPrimary">#FF0000</item>
+
+        <!-- Цвет текста в панели действий -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+
+        <!-- Цвет статус-бара (верхняя полоска на экране) -->
+        <item name="colorPrimaryDark">#990000</item>
+
+        <!-- Цвет акцента -->
+        <item name="colorAccent">#00FF00</item>
+
+
+</selector>

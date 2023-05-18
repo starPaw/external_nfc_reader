@@ -8,24 +8,30 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:text="Для отметки рабочего времени введите номер вашей карты"
+        android:textColor="#387395"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <EditText
         android:id="@+id/edit_text"
-        android:layout_width="289dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="92dp"
+        android:layout_width="310dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="120dp"
         android:ems="10"
+        android:gravity="center"
         android:inputType="number"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/enter_your_text_here" />
 
     <Button
         android:id="@+id/button_1"
@@ -167,12 +173,24 @@
         app:layout_constraintStart_toEndOf="@+id/button_4"
         app:layout_constraintTop_toBottomOf="@+id/button_2" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nfcEditText"
-        android:layout_width="409dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:foreground="#387395"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/edit_text"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp"/>
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

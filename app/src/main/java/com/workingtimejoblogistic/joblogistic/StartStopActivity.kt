@@ -18,6 +18,7 @@ import androidx.lifecycle.LifecycleOwner
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Base64
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -25,10 +26,34 @@ import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-
+import androidx.lifecycle.Observer
+import com.squareup.moshi.Json
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.JsonAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
+import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+
 import java.text.SimpleDateFormat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.workingtimejoblogistic.joblogistic.api.MainViewModel
+import com.workingtimejoblogistic.joblogistic.api.MainViewModelFactory
+import com.workingtimejoblogistic.joblogistic.api.Rpository
+import com.workingtimejoblogistic.joblogistic.api.Worker
+import kotlinx.coroutines.launch
 import java.util.Locale
+
 
 class StartStopActivity : AppCompatActivity() {
     private lateinit var handler: Handler
@@ -38,10 +63,13 @@ class StartStopActivity : AppCompatActivity() {
     private lateinit var imageCapture: ImageCapture
     private lateinit var outputDirectory: File
     private lateinit var looper: Looper
-
+    private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_stop)
+
+
+
 
         // Initialize the output directory
         outputDirectory = getOutputDirectory()
@@ -107,23 +135,31 @@ class StartStopActivity : AppCompatActivity() {
     }
 
     private fun takePhoto() {
-//        val imageCapture = imageCapture ?: return
-//
-//        val photoFile = File(
-//            outputDirectory,
-//            SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg"
-//        )
-//
-//        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-//
-//        imageCapture.takePicture(
-//            outputOptions,
-//            ContextCompat.getMainExecutor(this),
-//            object : ImageCapture.OnImageSavedCallback {
-//                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-//                    // Photo capture success callback
-//                    val savedUri = Uri.fromFile(photoFile)
+        val imageCapture = imageCapture ?: return
 
+        val photoFile = File(
+            outputDirectory,
+            SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg"
+        )
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    // Photo capture success callback
+                    val savedUri = Uri.fromFile(photoFile)
+
+                    val inputStream = FileInputStream(photoFile)
+
+                    val buffer = ByteArray(photoFile.length().toInt())
+                    inputStream.read(buffer)
+                    inputStream.close()
+                    val encodedString = Base64.encodeToString(buffer, Base64.DEFAULT)
+
+                    sendPhoto(encodedString)
                     tableWrite2()
                     val message = "View will be closed in 5 seconds..."
                     val textView = findViewById<TextView>(R.id.textView)
@@ -133,22 +169,39 @@ class StartStopActivity : AppCompatActivity() {
                     captureButton.visibility = View.GONE
                     handler = Handler()
                     runnable = Runnable {
-//                        textView.visibility = View.GONE
-//                        previewView.visibility =  View.VISIBLE
-//                        captureButton.visibility = View.VISIBLE
                         goToMainScreen()
                     }
                     handler.postDelayed(runnable, 5000)
                 }
 
-//                override fun onError(exception: ImageCaptureException) {
-//                    // Photo capture error callback
-//                    val errorMsg = "Photo capture failed: ${exception.message}"
-//                    Toast.makeText(this@StartStopActivity, errorMsg, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        )
-//    }
+                override fun onError(exception: ImageCaptureException) {
+                    // Photo capture error callback
+                    val errorMsg = "Photo capture failed: ${exception.message}"
+                    Toast.makeText(this@StartStopActivity, errorMsg, Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+    }
+
+
+    private fun sendPhoto(base64Photo: String) {
+        val repository = Rpository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+//        viewModel.post(base64Photo, "23456789")
+        viewModel.getWorker()
+
+        val textView = findViewById<TextView>(R.id.textView)
+
+        viewModel.myResponse.observe(this, Observer {
+
+                response ->
+
+            textView.text = response.toString()
+
+        })
+
+    }
 
     private fun tableWrite2() {
 // Получить ссылку на TableLayout
@@ -195,7 +248,7 @@ class StartStopActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     1.0f
                 )
-                cellLayoutParams.setMargins(50, 8, 50 , 8)
+                cellLayoutParams.setMargins(50, 8, 50, 8)
                 cell.layoutParams = cellLayoutParams
 
                 // Добавить ячейку в LinearLayout
@@ -206,6 +259,7 @@ class StartStopActivity : AppCompatActivity() {
             tableLayout.addView(tableRow)
         }
     }
+
     private fun tableWrite() {
         // Получить ссылку на TableLayout
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
