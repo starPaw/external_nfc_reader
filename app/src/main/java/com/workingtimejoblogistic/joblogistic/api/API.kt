@@ -18,7 +18,3 @@ interface API {
         @Field("card") card: String
     ): Response<Worker>
 }
-
-
-//https://x4ot-ncyw-z9th.n7.xano.io/api:JjCJI81e/user
-//https://x4ot-ncyw-z9th.n7.xano.io/api:JjCJI81e/upd_timestamps
