@@ -8,7 +8,7 @@ object RetrofitInstance {
 //    val okHttpClient = OkHttpClient.Builder()
 ////        .hostnameVerifier { _, _ -> true }
 //        .build()
-    val BASE_URL = ""
+    val BASE_URL = "https://x4ot-ncyw-z9th.n7.xano.io/api:JjCJI81e/"
     // retrofit instance object class
     private val retrofit by lazy {
         Retrofit.Builder()

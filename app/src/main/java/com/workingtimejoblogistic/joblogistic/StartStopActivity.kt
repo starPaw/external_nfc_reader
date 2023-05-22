@@ -1,7 +1,6 @@
 package com.workingtimejoblogistic.joblogistic
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -27,31 +26,14 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import com.squareup.moshi.Json
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.JsonAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 
 import java.text.SimpleDateFormat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.workingtimejoblogistic.joblogistic.api.MainViewModel
-import com.workingtimejoblogistic.joblogistic.api.MainViewModelFactory
-import com.workingtimejoblogistic.joblogistic.api.Rpository
-import com.workingtimejoblogistic.joblogistic.api.Worker
-import kotlinx.coroutines.launch
+import com.workingtimejoblogistic.joblogistic.viewModel.MainViewModel
+import com.workingtimejoblogistic.joblogistic.viewModelFactory.MainViewModelFactory
+import com.workingtimejoblogistic.joblogistic.viewModel.Rpository
 import java.util.Locale
 
 
@@ -67,9 +49,6 @@ class StartStopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_stop)
-
-
-
 
         // Initialize the output directory
         outputDirectory = getOutputDirectory()

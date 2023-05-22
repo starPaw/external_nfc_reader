@@ -1,4 +1,4 @@
-package com.workingtimejoblogistic.joblogistic.api
+package com.workingtimejoblogistic.joblogistic.model
 
 import java.math.BigInteger
 

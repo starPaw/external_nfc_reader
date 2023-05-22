@@ -2,4 +2,6 @@
     <string name="app_name">joblogistic</string>
     <string name="enter_your_text_here">input code</string>
     <string name="text_input_field">Text input field</string>
+    <string name="buttonsWrite">Записать</string>
+    <string name="buttonBack">Вернуться</string>
 </resources>
